@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: purchase-service-deployment
+  labels:
+    app: purchase-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: purchase-service
+  template:
+    metadata:
+      labels:
+        app: purchase-service
+    spec:
+      containers:
+        - name: purchase-service
+          image: atpurchase:1.0
+          ports:
+            - containerPort: 8082
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://purchase-db:5432/postgres
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: postgres
+          imagePullPolicy: IfNotPresent
